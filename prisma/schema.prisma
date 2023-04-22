@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model Entidades {
+  id  Int @id @default(autoincrement())
+  nombre  String
+  tipo  Int
+}
+
+model Domicilio {
+  id Int @id @default(autoincrement())
+  calle String
+  n_interior String
+  n_exterior String
+  cp String
+
+  colonia Colonia @relation(fields: [colonia_id], references: [id])
+  colonia_id Int @unique
+
+  ciudad Ciudad @relation(fields: [ciudad_id], references: [id])
+  ciudad_id Int @unique
+
+  estado Estado @relation(fields: [estado_id], references: [id])
+  estado_id Int @unique
+
+  alumno Alumno[]
+}
+
+model Colonia {
+  id Int @id @default(autoincrement())
+  nombre String
+  domicilio Domicilio[]
+}
+
+model Ciudad {
+  id Int @id @default(autoincrement())
+  nombre String
+  domicilio Domicilio[]
+}
+
+model Estado {
+  id Int @id @default(autoincrement())
+  nombre String
+  domicilio Domicilio[]
+}
+
+model Alumno {
+  id Int @id @default(autoincrement())
+  nombre String
+  apellido1 String
+  apellido2 String
+  nacimiento DateTime
+  genero Boolean
+
+  domicilio Domicilio @relation(fields: [domicilio_id], references: [id])
+  domicilio_id Int
+
+  plan_estudios Int
+}
