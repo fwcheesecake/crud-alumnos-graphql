@@ -19,7 +19,7 @@ model Entidades {
 model Domicilio {
   id Int @id @default(autoincrement())
   calle String
-  n_interior String
+  n_interior String?
   n_exterior String
   cp String
   colonia String
@@ -49,9 +49,9 @@ model Alumno {
   id String @id
   nombre String
   apellido1 String
-  apellido2 String
+  apellido2 String?
   nacimiento DateTime
-  genero Boolean
+  genero String
 
   domicilio Domicilio @relation(fields: [domicilio_id], references: [id])
   domicilio_id Int
