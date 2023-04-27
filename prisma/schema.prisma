@@ -10,51 +10,122 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Entidades {
-  id  Int @id @default(autoincrement())
-  nombre  String
-  tipo  Int
+model Student {
+  control       String        @id @unique
+
+  name          String
+  lastname1     String
+  lastname2     String?
+  gender        Gender?
+
+  email         String        @unique
+
+  address       Address       @relation(fields: [address_id], references: [id])
+  address_id    Int
+
+  major         Major         @relation(fields: [major_id], references: [id])
+  major_id      Int
+
+  study_plan    StudyPlan     @relation(fields: [study_plan_id], references: [id]) 
+  study_plan_id Int 
+
+  semester      Int?
 }
 
-model Domicilio {
-  id Int @id @default(autoincrement())
-  calle String
-  n_interior String?
-  n_exterior String
-  cp String
-  colonia String
+model StudyPlan {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+  career      Career        @relation(fields: [career_id], references: [id])
+  career_id   Int
 
-  ciudad Ciudad @relation(fields: [ciudad_id], references: [id])
-  ciudad_id Int
-
-  estado Estado @relation(fields: [estado_id], references: [id])
-  estado_id Int
-
-  alumno Alumno[]
+  student     Student[]
 }
 
-model Ciudad {
-  id Int @id @default(autoincrement())
-  nombre String
-  domicilio Domicilio[]
+model Major {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+
+  career      Career        @relation(fields: [career_id], references: [id])
+  career_id   Int
+
+  student     Student[]
 }
 
-model Estado {
-  id Int @id @default(autoincrement())
-  nombre String
-  domicilio Domicilio[]
+model Address {
+  id          Int           @id @unique @default(autoincrement())
+  zipcode     String
+
+  exterior    String
+  interior    String?
+
+  street      Street        @relation(fields: [street_id], references: [id])
+  street_id   Int
+
+  suburb      Suburb        @relation(fields: [suburb_id], references: [id])
+  suburb_id   Int
+
+  city        City          @relation(fields: [city_id], references: [id])
+  city_id     Int
+
+  state       State         @relation(fields: [state_id], references: [id])
+  state_id    Int
+
+  student     Student[]
 }
 
-model Alumno {
-  id String @id
-  nombre String
-  apellido1 String
-  apellido2 String?
-  nacimiento DateTime
-  genero String
+model State {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
 
-  domicilio Domicilio @relation(fields: [domicilio_id], references: [id])
-  domicilio_id Int
+  city        City[]
+  address     Address[]
+}
 
-  plan_estudios String
+model City {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+
+  state       State         @relation(fields: [state_id], references: [id])
+  state_id    Int     
+
+  suburb      Suburb[]
+  address     Address[]
+}
+
+model Suburb {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+
+  city        City          @relation(fields: [city_id], references: [id])
+  city_id     Int
+
+  street      Street[]
+  address     Address[]
+}
+
+model Street {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+
+  suburb      Suburb        @relation(fields: [suburb_id], references: [id])
+  suburb_id   Int
+  address     Address[]
+}
+
+model Career {
+  id          Int           @id @unique @default(autoincrement())
+  name        Int
+  
+  study_plan  StudyPlan[]
+  major       Major[]
+}
+
+// ---------------------
+// Enumerados
+// ---------------------
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
 }
