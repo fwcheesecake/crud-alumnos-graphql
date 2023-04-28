@@ -14,6 +14,8 @@ export const typeDefs = /* GraphQL */ `
 
   extend type Mutation {
     createSuburb(city_id: Int, name: String): Suburb
+    deleteSuburb(id:Int):Suburb
+    updateSuburb(id:Int, name: String): Suburb
   }
 `;
 
@@ -49,5 +51,26 @@ export const resolvers = {
         },
       });
     },
+    deleteSuburb:async (parent:Suburb,
+      args:{id:number},
+      context:GraphQLContext) => {
+      return context.prisma.major.delete({
+        where:{
+          id:args.id
+        }
+      })
+    },
+    updateSuburb:async (parent:Suburb,
+      args:{id:number, name:string},
+      context:GraphQLContext) => {
+      return context.prisma.suburb.update({
+        where:{
+          id: args.id
+        },
+        data:{
+          name:args.name
+        }
+      })
+    }
   },
 };

@@ -14,6 +14,8 @@ export const typeDefs = /* GraphQL */ `
 
   extend type Mutation {
     createCity(state_id: Int, name: String): City
+    deleteCity(id:Int):City
+    updateCity(id:Int, name:String):City
   }
 `;
 
@@ -45,5 +47,25 @@ export const resolvers = {
         },
       });
     },
+    deleteCity:async (parent:City, args:{id:number},
+      context:GraphQLContext) => {
+      return context.prisma.city.delete({
+        where:{
+          id:args.id
+        }
+      })
+    },
+    updateCity:async (parent:City, args:{
+      id:number, name: string},
+      context:GraphQLContext) => {
+      return context.prisma.city.update({
+        where:{
+          id:args.id,
+        },
+        data:{
+          name:args.name,
+        }
+      })
+    }
   },
 };

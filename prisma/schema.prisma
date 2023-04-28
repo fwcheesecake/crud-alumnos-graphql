@@ -127,7 +127,7 @@ model Street {
 
 model Career {
   id          Int           @id @unique @default(autoincrement())
-  name        Int
+  name        String
   
   study_plan  StudyPlan[]
   major       Major[]

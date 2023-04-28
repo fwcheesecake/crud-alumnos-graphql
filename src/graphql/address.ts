@@ -27,6 +27,7 @@ export const typeDefs = /* GraphQL */ `
       city_id: Int
       state_id: Int
     ): Address
+    
   }
 `;
 

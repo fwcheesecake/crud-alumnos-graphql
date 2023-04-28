@@ -26,6 +26,21 @@ import {
   resolvers as addressResolvers,
 } from "./graphql/address";
 
+import {
+  typeDefs as careerDefs,
+  resolvers as careerResolver,
+} from "./graphql/career";
+
+import {
+  typeDefs as majorDefs,
+  resolvers as majorResolver,
+} from "./graphql/major";
+
+import {
+  typeDefs as studyPlanDefs,
+  resolvers as studyPlanResolver,
+} from "./graphql/study_plan"
+
 const typeDefs = /* GraphQL */ `
   type Query {
     _empty: String
@@ -57,6 +72,9 @@ export const schema = makeExecutableSchema({
     suburbResolvers,
     streetResolvers,
     addressResolvers,
+    careerResolver,
+    majorResolver,
+    studyPlanResolver,
   ],
-  typeDefs: [typeDefs, stateDefs, cityDefs, suburbDefs, streetDefs, addresDefs],
+  typeDefs: [typeDefs, stateDefs, cityDefs, suburbDefs, streetDefs, addresDefs, careerDefs, majorDefs, studyPlanDefs],
 });
