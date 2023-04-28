@@ -30,6 +30,18 @@ model Student {
   study_plan_id Int 
 
   semester      Int?
+
+  tutor         Tutor         @relation(fields: [tutor_id], references: [id])
+  tutor_id      Int
+
+  student_state StudentState
+}
+
+model Tutor {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+
+  student     Student[]
 }
 
 model StudyPlan {
@@ -127,5 +139,11 @@ model Career {
 enum Gender {
   MALE
   FEMALE
+  OTHER
+}
+
+enum StudentState {
+  ACTIVE
+  TEMP_LEAVE
   OTHER
 }
