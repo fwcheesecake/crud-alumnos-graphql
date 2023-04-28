@@ -13,6 +13,8 @@ export const typeDefs = /* GraphQL */ `
 
   extend type Mutation {
     createState(name: String): State
+    deleteState(id:Int):State
+    updateState(id:Int, name:String):State
   }
 `;
 
@@ -34,5 +36,27 @@ export const resolvers = {
         },
       });
     },
+    deleteState: async (parent: State,
+      args: { id: number },
+      context: GraphQLContext) => {
+      return context.prisma.state.delete({
+        where: {
+          id: args.id,
+        }
+      });
+    },
+    updateState: async (parent: State,
+      args: { id: number, name: string },
+      context: GraphQLContext) => {
+      return context.prisma.state.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          name: args.name,
+        }
+      })
+
+    }
   },
 };
