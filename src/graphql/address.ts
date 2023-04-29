@@ -8,6 +8,7 @@ export const typeDefs = /* GraphQL */ `
     exterior: String
     interior: String
     street: Street
+    
   }
 
   extend type Query {
@@ -20,6 +21,7 @@ export const typeDefs = /* GraphQL */ `
       exterior: String
       interior: String
       street_id: Int
+      suburb_id:Int
     ): Address
   }
 `;
@@ -60,6 +62,7 @@ export const resolvers = {
         exterior: string;
         interior: string;
         street_id: number;
+        suburb_id:number
       },
       context: GraphQLContext
     ) => {
@@ -69,6 +72,7 @@ export const resolvers = {
           exterior: args.exterior,
           interior: args.interior,
           street_id: args.street_id,
+          suburb_id:args.suburb_id
         },
       });
     },

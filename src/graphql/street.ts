@@ -5,7 +5,6 @@ export const typeDefs = /* GraphQL */ `
   type Street {
     id: ID!
     name: String
-    suburb: Suburb
   }
 
   extend type Query {
@@ -18,22 +17,17 @@ export const typeDefs = /* GraphQL */ `
 `;
 
 export const resolvers = {
-  Street: {
-    suburb: async (parent: Street, args: {}, context: GraphQLContext) => {
-      return context.prisma.suburb.findUnique({
-        where: {
-          id: parent.suburb_id,
-        },
-      });
-    },
-  },
   Query: {
     getAllStreets: async (
       parent: Street,
       args: {},
       context: GraphQLContext
     ) => {
-      return context.prisma.street.findMany();
+      return context.prisma.street.findMany({
+        include:{
+          suburbs:true
+        }
+      });
     },
   },
   Mutation: {
@@ -44,7 +38,6 @@ export const resolvers = {
     ) => {
       return context.prisma.street.create({
         data: {
-          suburb_id: args.suburb_id,
           name: args.name,
         },
       });
