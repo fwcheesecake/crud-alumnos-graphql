@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgres"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Student {
@@ -101,16 +102,26 @@ model Suburb {
   city        City          @relation(fields: [city_id], references: [id])
   city_id     Int
 
-  street      Street[]
+  streets      StreetsOnSuburbs[]
 }
 
 model Street {
   id          Int           @id @unique @default(autoincrement())
   name        String
 
+  suburbs     StreetsOnSuburbs[]
+
+  address     Address[]
+}
+
+model StreetsOnSuburbs {
+  street      Street        @relation(fields: [street_id], references: [id])
+  street_id   Int
+
   suburb      Suburb        @relation(fields: [suburb_id], references: [id])
   suburb_id   Int
-  address     Address[]
+
+  @@id([street_id, suburb_id])
 }
 
 model Career {
