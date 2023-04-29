@@ -75,6 +75,9 @@ model Address {
   street      Street        @relation(fields: [street_id], references: [id])
   street_id   Int
 
+  suburb      Suburb        @relation(fields: [suburb_id], references: [id])
+  suburb_id   Int
+
   student     Student[]
 }
 
@@ -103,6 +106,7 @@ model Suburb {
   city_id     Int
 
   streets      StreetsOnSuburbs[]
+  address      Address[]
 }
 
 model Street {
